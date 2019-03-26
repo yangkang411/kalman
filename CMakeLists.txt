@@ -13,6 +13,7 @@ include(CTest)
 set(KALMAN_CXX_FLAGS "-std=c++11")
 
 option(KALMAN_BUILD_EXAMPLES "Build the Kalman examples" ON)
+option(ADD_EXAMPLE_PYTHON_BINDINGS "Add python bindings for examples" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
@@ -58,6 +59,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DEIGEN_NO_DEBUG")
 # Examples
 if(KALMAN_BUILD_EXAMPLES)
   add_executable(example_robot1 "examples/Robot1/main.cpp")
+  if(ADD_EXAMPLE_PYTHON_BINDINGS)
+    find_package(PythonLibs 2.7 REQUIRED)
+    set(PYBIND11_PYTHON_VERSION ${PYBIND11_PYTHON_VERSION} 2.7)
+    include_directories(${PYTHON_INCLUDE_DIR})
+    add_subdirectory("external/pybind11")
+    include_directories("external/pybind11/include")
+    pybind11_add_module(example_robot1_pybind "examples/Robot1/pybind_interface.cpp")
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/__init__.py "__all__ = ['example_robot1_pybind']")
+  endif()
 endif()
 
 # Unit Tests
