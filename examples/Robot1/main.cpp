@@ -14,7 +14,6 @@
 
 #include <iostream>
 #include <random>
-#include <chrono>
 
 
 using namespace KalmanExamples;
@@ -49,7 +48,7 @@ int main(int argc, char** argv)
     
     // Random number generation (for noise simulation)
     std::default_random_engine generator;
-    generator.seed( std::chrono::system_clock::now().time_since_epoch().count() );
+    generator.seed( 111111 );
     std::normal_distribution<T> noise(0, 1);
     
     // Some filters for estimation
