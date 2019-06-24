@@ -87,7 +87,7 @@ namespace Kalman {
          *
          * @param [in] s The System model
          * @return The updated state estimate
-         */
+         *
         template<class Control, template<class> class CovarianceBase>
         const State& predict( SystemModelType<Control, CovarianceBase>& s )
         {
@@ -95,7 +95,7 @@ namespace Kalman {
             Control u;
             u.setZero();
             return predict( s, u );
-        }
+        }*/
         
         /**
          * @brief Perform filter prediction step using control input \f$u\f$ and corresponding system model
@@ -104,10 +104,11 @@ namespace Kalman {
          * @param [in] u The Control input vector
          * @return The updated state estimate
          */
-        template<class Control, template<class> class CovarianceBase>
-        const State& predict( SystemModelType<Control, CovarianceBase>& s, const Control& u )
+        template<class Control, template<class> class CovarianceBase, typename... Args>
+        const State& predict( SystemModelType<Control, CovarianceBase>& s, const Control& u, Args&& ... args )
         {
-            s.updateJacobians( x, u );
+            s.updateJacobians( x, u, std::forward<Args>(args)...);
+            //s.updateJacobians( x, u);
             
             // predict state
             x = s.f(x, u);

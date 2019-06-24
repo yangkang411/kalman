@@ -60,6 +60,9 @@ namespace Kalman {
          */
         virtual State f(const State& x, const Control& u) const = 0;
         
+        template<typename... Args>
+        State f(const State& x, const Control& u, Args ... args) const;
+        
     protected:
         SystemModel() {}
         virtual ~SystemModel() {}

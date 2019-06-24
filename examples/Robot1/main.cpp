@@ -89,7 +89,8 @@ int main(int argc, char** argv)
         
         // Predict state for current time-step using the filters
         auto x_pred = predictor.predict(sys, u);
-        auto x_ekf = ekf.predict(sys, u);
+        //auto x_ekf = ekf.predict(sys, u);
+        auto x_ekf = ekf.predict(sys, u, 0.1);
         auto x_ukf = ukf.predict(sys, u);
         
         // Orientation measurement

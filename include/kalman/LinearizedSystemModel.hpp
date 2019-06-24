@@ -67,6 +67,8 @@ namespace Kalman {
             (void)x;
             (void)u;
         }
+        template<typename... Args>
+        State updateJacobians(const State& x, const Control& u, Args&& ... args);
     protected:
         LinearizedSystemModel()
         {

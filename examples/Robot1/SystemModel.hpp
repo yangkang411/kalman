@@ -2,6 +2,7 @@
 #define KALMAN_EXAMPLES1_ROBOT_SYSTEMMODEL_HPP_
 
 #include <kalman/LinearizedSystemModel.hpp>
+#include <iostream>
 
 namespace KalmanExamples
 {
@@ -118,6 +119,12 @@ public:
         // Return transitioned state vector
         return x_;
     }
+
+    S f(const S& x, const C& u, T dt) const
+    {
+        std::cout << "forwarding works" << std::endl;
+        return this->f(x, u);
+    }
     
 protected:
     /**
@@ -158,6 +165,12 @@ protected:
         // TODO: more sophisticated noise modelling
         //       i.e. The noise affects the the direction in which we move as 
         //       well as the velocity (i.e. the distance we move)
+    }
+
+    void updateJacobians( const S& x, const C& u, double&& dt )
+    {
+        std::cout << "J: Forwarding works" << std::endl;
+        return this->updateJacobians(x, u);
     }
 };
 
